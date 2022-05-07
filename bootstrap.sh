@@ -117,7 +117,13 @@ function setMimeTypes {
 }
 
 function createFolders{
-    sudo mkdir /media/{dmi,server,bin} -p
+    mkdir -p "$HOME/src"
+    sudo mkdir -p /media/{dmi,server,bin}
+}
+
+function installDotfiles{
+    git clone github:/peterunix/dotfiles.git "$HOME/src/dotfiles"
+    git clone github:/peterunix/website.git "$HOME/src/website"
 }
 
 main
