@@ -13,7 +13,7 @@ function main {
 
 # AUR Helper Program
 function installParu {
-    sed -i 's;^#ParallelDownloads.*;ParallelDownloads = 8;g' /etc/pacman.conf
+    sudo sed -i 's;^#ParallelDownloads.*;ParallelDownloads = 8;g' /etc/pacman.conf
     sudo pacman -Sy --noconfirm base-devel
     git clone https://aur.archlinux.org/paru.git
     cd paru
@@ -34,10 +34,10 @@ function installPackages {
     paru -S --noconfirm dnsutils bridge-utils tunctl
     paru -S --noconfirm linux-headers virtualbox virtualbox-guest-iso
     # Set ZSH as the default shell
-    chsh -s /usr/bin/zsh anon
+    sudo chsh -s /usr/bin/zsh anon
     # Add user to Virtualbox group and load the vbox kernel module on boot
     sudo usermod -aG vboxusers $(whoami)
-    modprobe vboxdrv
+    sudo modprobe vboxdrv
     echo "vboxdrv" | sudo tee /etc/modules-load.d/virtualbox.conf
     # Update the TLDR database
     tldr -u
