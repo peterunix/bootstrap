@@ -5,7 +5,6 @@ function main {
     installParu
     installPackages
     installFonts
-    installEmacsConfig
     installHostsFile
     setupCrontab
     setMimeTypes
@@ -23,16 +22,19 @@ function installParu {
 # Installs arch packages from Official+AUR repositories
 function installPackages {
     # Running Paru on multiple lines to keep my sanity and avoid using a separate text file
-    paru -S --noconfirm brave-bin chromium
-    paru -S --noconfirm filezilla veracrypt emacs mpv youtube-dlc feh ffmpeg libreoffice obs scrot tldr zsh
-    paru -S --noconfirm zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps zaread-git
-    paru -S --noconfirm qemu qemu-arch-extra qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-guest-agent qemu-user-static-bin spice-gtk samba
-    paru -S --noconfirm pandoc texlive-most imagemagick
-    paru -S --noconfirm curl wget git php rclone rsync netcat
-    paru -S --noconfirm wine winetricks zenity
-    paru -S --noconfirm qbittorrent wireguard wireguard-tools openvpn resolvconf
-    paru -S --noconfirm dnsutils bridge-utils tunctl
-    paru -S --noconfirm linux-headers virtualbox virtualbox-guest-iso
+    paru -S --noconfirm brave-bin chromium \
+      filezilla veracrypt emacs mpv feh ffmpeg libreoffice scrot tldr zsh \
+      zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps zaread-git \
+      qemu qemu-arch-extra qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-guest-agent spice-gtk samba \
+      pandoc texlive-most imagemagick \
+      curl wget git php rclone rsync netcat \
+      qbittorrent wireguard wireguard-tools openvpn resolvconf \
+      dnsutils bridge-utils tunctl \
+      linux-headers virtualbox virtualbox-guest-iso \
+      xbanish dunst pulseaudio pulsemixer pavucontrol man \
+      unzip bat bc highlight ntfs-3g openssh xdotool xsel xclip \
+      slurm htop tor torsocks
+      #wine winetricks zenity \
     # Set ZSH as the default shell
     sudo chsh -s /usr/bin/zsh anon
     # Add user to Virtualbox group and load the vbox kernel module on boot
@@ -44,6 +46,8 @@ function installPackages {
     # Start the printing service
     sudo systemctl enable --now cups
     echo "Cups Server: http://localhost:631"
+    # Start tor
+    sudo systemctl enable --now tor
 }
 
 # Installs third party fonts
@@ -116,12 +120,7 @@ function setMimeTypes {
     xdg-mime default org.pwmt.zathura.desktop application/pdf
 }
 
-function createFolders{
-    mkdir -p "$HOME/src"
-    sudo mkdir -p /media/{dmi,server,bin}
-}
-
-function installDotfiles{
+function installDotfiles {
     git clone github:/peterunix/dotfiles.git "$HOME/src/dotfiles"
     git clone github:/peterunix/website.git "$HOME/src/website"
 }
